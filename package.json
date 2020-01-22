@@ -1,6 +1,6 @@
 {
   "name": "csobcz_payment_gateway",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "CSOB CZ payment gateway module",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "request": "^2.87.0",
-    "request-promise-native": "^1.0.5",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.8",
     "rsvp": "^4.8.2"
   },
   "devDependencies": {},

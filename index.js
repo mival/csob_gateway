@@ -14,10 +14,18 @@ const CSOBPaymentModule = class CSOBPaymentModule {
     const configuration = {
       gateUrl: config.gateUrl || process.env.GATEWAY_URL,
       privateKey: config.privateKey || process.env.MERCHANT_PRIVATE_KEY,
-      merchantPublicKey: config.merchantPublicKey || process.env.MERCHANT_PUBLIC_KEY,
       bankPublicKey: config.bankPublicKey || process.env.BANK_PUBLIC_KEY,
       calbackUrl: config.calbackUrl || process.env.CALLBACK_URL,
-      merchantId: config.merchantId || process.env.MERCHANT_ID
+      merchantId: config.merchantId || process.env.MERCHANT_ID,
+      apiVersion: config.apiVersion || process.env.API_VERSION || '1.8'
+    }
+
+    switch(configuration.apiVersion) {
+      case '1.8':
+        configuration.cryptoAlgorithm = 'sha256';
+        break;
+      default:
+        configuration.cryptoAlgorithm = 'sha1';
     }
 
     const PAYLOAD_TEMPLATE = {
@@ -40,17 +48,17 @@ const CSOBPaymentModule = class CSOBPaymentModule {
 
   _createDttm() {
     const date = new Date();
-    return `${date.getFullYear()}${this._prefixNumber(date.getMonth())}`+
+    return `${date.getFullYear()}${this._prefixNumber(date.getMonth()+1)}`+
     `${this._prefixNumber(date.getDay())}${this._prefixNumber(date.getHours())}`+
     `${this._prefixNumber(date.getMinutes())}${this._prefixNumber(date.getSeconds())}`;
   }
 
   _sign(text) {
-    return crypto.createSign('sha1').update(text).sign(this.config.privateKey, "base64");
+    return crypto.createSign(this.config.cryptoAlgorithm).update(text).sign(this.config.privateKey, "base64");
   }
 
   _verify(text, signature) {
-    return crypto.createVerify('sha1').update(text).verify(this.config.bankPublicKey, signature, "base64");
+    return crypto.createVerify(this.config.cryptoAlgorithm).update(text).verify(this.config.bankPublicKey, signature, "base64");
   }
 
   _createMessageArray(data, keys) {

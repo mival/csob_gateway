@@ -16,7 +16,6 @@ All keys are strings, for multiline env strings (certificates) check [dotenv#rul
 |--------------|------------|
 |GATEWAY_URL | payment gateway address|
 |MERCHANT_PRIVATE_KEY | merchant private key|
-|MERCHANT_PUBLIC_KEY | merchant public key|
 |BANK_PUBLIC_KEY | bank public key |
 |CALLBACK_URL | url called by gateway after payment|
 |MERCHANT_ID | merchant id from gateway provider|
@@ -29,7 +28,6 @@ const gateway = new CSOBPaymentModule({
   logging: ...,
   gateUrl:   ...,
   privateKey: ...,
-  merchantPublicKey: ...,
   bankPublicKey: ...,
   calbackUrl: ...,
   merchantId: ...,
